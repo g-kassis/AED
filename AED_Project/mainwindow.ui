@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>828</width>
-    <height>631</height>
+    <height>674</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,14 +17,15 @@
    <widget class="QGroupBox" name="lcd">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>150</y>
-      <width>141</width>
+      <x>250</x>
+      <y>190</y>
+      <width>151</width>
       <height>81</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:rgb(122, 129, 129)</string>
+     <string notr="true">background-color:rgb(122, 129, 129);
+border-radius:12px;</string>
     </property>
     <property name="title">
      <string/>
@@ -42,34 +43,24 @@
       <string>TextLabel</string>
      </property>
     </widget>
-    <widget class="QLabel" name="timeElapsed">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>0</y>
-       <width>62</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>label</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QPushButton" name="shockButton">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>230</y>
-      <width>83</width>
-      <height>81</height>
+      <x>300</x>
+      <y>280</y>
+      <width>61</width>
+      <height>61</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: Transparent;
  background-repeat:no-repeat;
  border: none;
-border-radius: 40px;
+border-radius: 30px;
 </string>
     </property>
     <property name="text">
@@ -79,11 +70,14 @@ border-radius: 40px;
    <widget class="QPushButton" name="powerButton">
     <property name="geometry">
      <rect>
-      <x>462</x>
-      <y>460</y>
+      <x>490</x>
+      <y>510</y>
       <width>31</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: Transparent;
@@ -97,10 +91,10 @@ border-radius: 40px;
    <widget class="QLabel" name="mainInterface">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>641</width>
-      <height>591</height>
+      <x>-10</x>
+      <y>10</y>
+      <width>671</width>
+      <height>621</height>
      </rect>
     </property>
     <property name="text">
@@ -109,25 +103,197 @@ border-radius: 40px;
     <property name="pixmap">
      <pixmap resource="Resources.qrc">:/Images/3004project.jpg</pixmap>
     </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="indicator">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>466</y>
+      <x>130</x>
+      <y>510</y>
       <width>51</width>
-      <height>21</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="clear_LED">
+    <property name="geometry">
+     <rect>
+      <x>431</x>
+      <y>371</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D33802 ;
+border-radius: 5px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="compressions_LED">
+    <property name="geometry">
+     <rect>
+      <x>229</x>
+      <y>379</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D33802 ;
+border-radius: 5px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pads_LED">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>282</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D33802 ;
+border-radius: 5px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ambulance_LED">
+    <property name="geometry">
+     <rect>
+      <x>299</x>
+      <y>157</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D33802 ;
+border-radius: 5px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ok_LED">
+    <property name="geometry">
+     <rect>
+      <x>217</x>
+      <y>243</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D33802 ;
+border-radius: 5px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="minor_LED">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>429</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D33802 ;
+border-radius: 5px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="shock_LED">
+    <property name="geometry">
+     <rect>
+      <x>323</x>
+      <y>301</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D33802 ;
+border-radius: 5px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+   </widget>
    <zorder>mainInterface</zorder>
    <zorder>lcd</zorder>
    <zorder>shockButton</zorder>
    <zorder>powerButton</zorder>
-   <zorder>label</zorder>
+   <zorder>indicator</zorder>
+   <zorder>clear_LED</zorder>
+   <zorder>compressions_LED</zorder>
+   <zorder>pads_LED</zorder>
+   <zorder>ambulance_LED</zorder>
+   <zorder>ok_LED</zorder>
+   <zorder>minor_LED</zorder>
+   <zorder>shock_LED</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
