@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect(ui->powerButton, SIGNAL(clicked()), this, SLOT(onPowerButtonClicked()));
+    connect(ui->shockButton, SIGNAL(clicked()), this, SLOT(onShockButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -13,3 +16,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::onPowerButtonClicked(){
+    qInfo("Power Button Clicked");
+}
+
+void MainWindow::onShockButtonClicked(){
+    qInfo("Shock Button Clicked");
+}
