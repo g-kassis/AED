@@ -14,7 +14,7 @@ Plus device to demonstrate its functionality and provide user interaction.
 
 <h1>Objective</h1>
 The objective of this project is to create a software simulation that mimics the core
-functionality of an AED Plus device, as seen in Fig 1, allowing users to perform actions such as
+functionality of an AED Plus device allowing users to perform actions such as
 analyzing heart rhythms, providing electric shocks, and offering guidance during an emergency.
 All the technical information required to model the AED Plus is contained in the AED Plus
 Administrator’s Guide
