@@ -4,6 +4,8 @@
  Team Members:
  - Abdul Raheem
  - Giovanni Kassis
+ - Aidan Machenzie
+ - Usman Iftikhar
 
 <h1>Project Overview</h1>
 In this project, the team is tasked with designing and developing a software
