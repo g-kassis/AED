@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCheckBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,6 +19,8 @@ public:
 public slots:
     void onPowerButtonClicked();
     void onShockButtonClicked();
+    void onPowerButtonHeld();
+    void onCheckBox();
 
 private:
     Ui::MainWindow *ui;

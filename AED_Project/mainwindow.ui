@@ -113,7 +113,7 @@ border-radius: 30px;
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="indicator">
+   <widget class="QLabel" name="statusIndicator">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -231,7 +231,7 @@ border-radius: 5px;
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="minor_LED">
+   <widget class="QPushButton" name="child_LED">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -282,18 +282,60 @@ border-radius: 5px;
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="electrodeButton">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>100</y>
+      <width>83</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Place Pads</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="adultCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>40</y>
+      <width>90</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adult</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="childCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>70</y>
+      <width>90</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Child</string>
+    </property>
+   </widget>
    <zorder>mainInterface</zorder>
    <zorder>lcd</zorder>
    <zorder>shockButton</zorder>
    <zorder>powerButton</zorder>
-   <zorder>indicator</zorder>
+   <zorder>statusIndicator</zorder>
    <zorder>clear_LED</zorder>
    <zorder>compressions_LED</zorder>
    <zorder>pads_LED</zorder>
    <zorder>ambulance_LED</zorder>
    <zorder>ok_LED</zorder>
-   <zorder>minor_LED</zorder>
+   <zorder>child_LED</zorder>
    <zorder>shock_LED</zorder>
+   <zorder>electrodeButton</zorder>
+   <zorder>adultCheckBox</zorder>
+   <zorder>childCheckBox</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
