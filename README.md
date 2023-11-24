@@ -4,7 +4,7 @@
  Team Members:
  - Abdul Raheem
  - Giovanni Kassis
- - Aidan Machenzie
+ - Aidan Mackenzie
  - Usman Iftikhar
 
 <h1>Project Overview</h1>
