@@ -10,6 +10,9 @@
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <QElapsedTimer>
+#include <QString>
+
+#include "simulatedscenarios.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,19 +26,22 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void delay(int);
-
 public slots:
     void onPowerButtonClicked();
     void onShockButtonClicked();
     void onPowerButtonHeld();
     void timeElapsed();
     void onCheckBox();
+    void delay(int);
+
+    //handle functions
+    void handleVisualandVoice(QString);
 
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
     QElapsedTimer elapsedtimer;
+    SimulatedScenarios Scenarios;
     int min;
 };
 #endif // MAINWINDOW_H

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>828</width>
+    <width>836</width>
     <height>674</height>
    </rect>
   </property>
@@ -389,45 +389,6 @@ border-radius: 5px;
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="electrodeButton">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>100</y>
-      <width>83</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Place Pads</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="adultCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>40</y>
-      <width>90</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Adult</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="childCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>70</y>
-      <width>90</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Child</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="cmpressions_LED_2">
     <property name="enabled">
      <bool>true</bool>
@@ -452,6 +413,175 @@ border-radius: 5px;
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QGroupBox" name="simScenarios">
+    <property name="geometry">
+     <rect>
+      <x>679</x>
+      <y>30</y>
+      <width>141</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Simulated Scenarios</string>
+    </property>
+    <widget class="QCheckBox" name="childCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pediatric Pads</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="adultCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Adult Pads</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="normalOperationScenarioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Normal Op</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="badECGrythmButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Bad ECG rythm</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="lowBatteryScenarioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>150</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Low Battery</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="userInteraction">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>270</y>
+      <width>141</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>User Interaction</string>
+    </property>
+    <widget class="QPushButton" name="electrodeButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>121</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Place Electrode</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cprButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>121</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CPR Initiation</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="batteryResetButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>121</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Battery Reset</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cprButton_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>121</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Call For Help</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cprButton_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>121</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Check Electrode</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cprButton_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>200</y>
+       <width>121</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Responsiveness</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>mainInterface</zorder>
    <zorder>lcd</zorder>
    <zorder>shockButton</zorder>
@@ -463,18 +593,17 @@ border-radius: 5px;
    <zorder>ok_LED</zorder>
    <zorder>child_LED</zorder>
    <zorder>shock_LED</zorder>
-   <zorder>electrodeButton</zorder>
-   <zorder>adultCheckBox</zorder>
-   <zorder>childCheckBox</zorder>
    <zorder>cmpressions_LED_2</zorder>
    <zorder>compressions_LED</zorder>
+   <zorder>simScenarios</zorder>
+   <zorder>userInteraction</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>828</width>
+     <width>836</width>
      <height>22</height>
     </rect>
    </property>
