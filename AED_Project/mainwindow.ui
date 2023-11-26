@@ -461,7 +461,7 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>Normal Op</string>
+      <string>Shockable ECG</string>
      </property>
     </widget>
     <widget class="QRadioButton" name="badECGrythmButton">
@@ -474,7 +474,7 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>Bad ECG rythm</string>
+      <string>Non-shock ECG</string>
      </property>
     </widget>
     <widget class="QRadioButton" name="lowBatteryScenarioButton">
@@ -542,7 +542,7 @@ border-radius: 5px;
       <string>Battery Reset</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="cprButton_2">
+    <widget class="QPushButton" name="callForHelpBUtton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -568,7 +568,7 @@ border-radius: 5px;
       <string>Check Electrode</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="cprButton_4">
+    <widget class="QPushButton" name="responsivenessButton">
      <property name="geometry">
       <rect>
        <x>10</x>

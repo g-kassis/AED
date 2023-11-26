@@ -19,10 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //User Interaction Buttons
-
+    connect(ui->batteryResetButton, SIGNAL(clicked()), this, SLOT(onBatteryReset()));
+    connect(ui->electrodeButton, SIGNAL(clicked()), this, SLOT(onPlaceElectrode()));
+    connect(ui->cprButton, SIGNAL(clicked()), this, SLOT(onCPRinitiation()));
 
     //Connect signals from simulatedScenarios
     connect(&Scenarios, SIGNAL(updateLCD(QString)), this, SLOT(handleVisualandVoice(QString)));
+    connect(&Scenarios, SIGNAL(updateLEDs(int)), this, SLOT(handleLEDs(int)));
     connect(&Scenarios, SIGNAL(delay(int)), this, SLOT(delay(int)));
 
 
@@ -35,66 +38,54 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::onPowerButtonClicked(){
+    qInfo("Power Button Clicked");
+
     //checks if a Simulated Scenario has been chosen
     if(ui->normalOperationScenarioButton->isChecked()){
-        qInfo("normal ops");
+        qInfo("Shockable ECG");
+        Scenarios.setLowBattery(false);
     }else if(ui->badECGrythmButton->isChecked()){
-        qInfo("bad ecg");
+        qInfo("non-shock ECG");
+        Scenarios.setLowBattery(false);
     }else if(ui->lowBatteryScenarioButton->isChecked()){
         qInfo("low battery");
+        Scenarios.setLowBattery(true);
     }else{
         qInfo("no simulated scenario selected");
+        return;
     }
-    //qInfo("Power Button Clicked");
-//    min = 0;
 
-//    ui->child_LED->hide();
-//    ui->ok_LED->hide();
-//    ui->ambulance_LED->hide();
-//    ui->pads_LED->hide();
-//    ui->clear_LED->hide();
-//    ui->compressions_LED->hide();
-//    ui->shock_LED->hide();
+    min = 0;
 
-//    //self test (check batteries, check LEDs...)
-//    ui->child_LED->show();
-//    delay(1);
-//    ui->child_LED->hide();
+    ui->child_LED->hide();
+    ui->ok_LED->hide();
+    ui->ambulance_LED->hide();
+    ui->pads_LED->hide();
+    ui->clear_LED->hide();
+    ui->compressions_LED->hide();
+    ui->shock_LED->hide();
 
-//    ui->ok_LED->show();
-//    delay(1);
-//    ui->ok_LED->hide();
+    //self test (check batteries, check LEDs...)
+    Scenarios.selfTest();
 
-//    ui->ambulance_LED->show();
-//    delay(1);
-//    ui->ambulance_LED->hide();
+    ui->statusIndicator->setPixmap(QPixmap(":/Images/greenCheck.jpg"));
 
-//    ui->pads_LED->show();
-//    delay(1);
-//    ui->pads_LED->hide();
+    timer->start(1000);
+    elapsedtimer.start();
 
-//    ui->clear_LED->show();
-//    delay(1);
-//    ui->clear_LED->hide();
+    //waits for user to choose if patient is adult or pediatric (if they haven't already)
+    if(!ui->adultCheckBox->isChecked() && !ui->childCheckBox->isChecked()){
+        eventLoop.exec();
+        Scenarios.adult();
+        Scenarios.pediatric();
+    }
 
-
-//    ui->compressions_LED->show();
-//    delay(1);
-//    ui->compressions_LED->hide();
-
-//    ui->shock_LED->show();
-//    delay(1);
-//    ui->shock_LED->hide();
-//    ui->statusIndicator->setPixmap(QPixmap(":/Images/greenCheck.jpg"));
-
-//    Scenarios.selfTest();
-
-//    timer->start(1000);
-//    elapsedtimer.start();
-
-
-
-
+    //waits for operator to place pads on patient
+    while(!Scenarios.getElectrodeSensor()){
+        delay(1);
+        Scenarios.startProcedure();
+    }
+    Scenarios.startAnalysis();
 
 }
 
@@ -105,12 +96,35 @@ void MainWindow::onPowerButtonHeld(){
     qInfo("Initiating self test...");
 
     //self test
-
+    Scenarios.selfTest();
 
 }
 
 void MainWindow::onShockButtonClicked(){
     qInfo("Shock Button Clicked");
+
+
+}
+
+void MainWindow::onPlaceElectrode(){
+    qInfo("electrode placed");
+    Scenarios.setElectrodeSensor(true);
+
+
+}
+
+void MainWindow::onCPRinitiation(){
+
+}
+
+void MainWindow::onCallForHelp(){
+
+}
+
+void MainWindow::onBatteryReset(){
+    qInfo("Battery Reset clicked");
+    ui->normalOperationScenarioButton->setChecked(true);
+    Scenarios.setLowBattery(false);
 
 
 }
@@ -121,12 +135,14 @@ void MainWindow::onCheckBox(){
         //Child_LED off
         ui->child_LED->hide();
         Scenarios.setAdultPads(true);
+        eventLoop.quit();
 
     }else if(ui->childCheckBox->isChecked()){
         ui->adultCheckBox->setCheckable(false);
         //Child_LED illuminate
         ui->child_LED->show();
         Scenarios.setPediatricPads(true);
+        eventLoop.quit();
 
     }else{
         ui->childCheckBox->setCheckable(true);
@@ -137,8 +153,101 @@ void MainWindow::onCheckBox(){
         Scenarios.setPediatricPads(false);
 
     }
+
 }
 
+
+//LED Control function (only handles LEDS)
+void MainWindow::handleLEDs(int pictogramID){
+    if(pictogramID == 0){   //self test case (LED test check)
+        ui->child_LED->show();
+        delay(1);
+        ui->child_LED->hide();
+        ui->ok_LED->show();
+        delay(1);
+        ui->ok_LED->hide();
+        ui->ambulance_LED->show();
+        delay(1);
+        ui->ambulance_LED->hide();
+        ui->pads_LED->show();
+        delay(1);
+        ui->pads_LED->hide();
+        ui->clear_LED->show();
+        delay(1);
+        ui->clear_LED->hide();
+        ui->compressions_LED->show();
+        delay(1);
+        ui->compressions_LED->hide();
+        ui->shock_LED->show();
+        delay(1);
+        ui->shock_LED->hide();
+
+    }else{  //other cases
+
+        if(pictogramID == 1){   //Responsiveness LED
+            //Turn off other LEDS
+            ui->ambulance_LED->hide();
+            ui->pads_LED->hide();
+            ui->clear_LED->hide();
+            ui->compressions_LED->hide();
+            ui->shock_LED->hide();
+
+            ui->ok_LED->show();
+
+        }else if(pictogramID == 2){ //Help LED
+            //Turn off other LEDS
+            ui->ok_LED->hide();
+            ui->pads_LED->hide();
+            ui->clear_LED->hide();
+            ui->compressions_LED->hide();
+            ui->shock_LED->hide();
+
+            ui->ambulance_LED->show();
+
+        }else if(pictogramID == 3){ //Place pads LED
+            //Turn off other LEDS
+            ui->ok_LED->hide();
+            ui->ambulance_LED->hide();
+            ui->clear_LED->hide();
+            ui->compressions_LED->hide();
+            ui->shock_LED->hide();
+
+            ui->pads_LED->show();
+
+        }else if(pictogramID == 4){ //Clear LED
+            //Turn off other LEDS
+            ui->ok_LED->hide();
+            ui->ambulance_LED->hide();
+            ui->pads_LED->hide();
+            ui->compressions_LED->hide();
+            ui->shock_LED->hide();
+
+            ui->clear_LED->show();
+
+        }else if(pictogramID == 5){ //CPR LED
+            //Turn off other LEDS
+            ui->ok_LED->hide();
+            ui->ambulance_LED->hide();
+            ui->pads_LED->hide();
+            ui->clear_LED->hide();
+            ui->shock_LED->hide();
+
+            ui->compressions_LED->show();
+
+        }else{  //shock LED
+            //Turn off other LEDS
+            ui->ok_LED->hide();
+            ui->ambulance_LED->hide();
+            ui->pads_LED->hide();
+            ui->compressions_LED->hide();
+
+            ui->clear_LED->show();
+            ui->shock_LED->show();
+
+        }
+
+    }
+}
 
 void MainWindow::handleVisualandVoice(QString str){
     ui->visualPrompt->setText(str);

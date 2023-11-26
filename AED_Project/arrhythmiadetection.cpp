@@ -8,5 +8,26 @@
 
 arrhythmiadetection::arrhythmiadetection()
 {
+    vTach = false;
+    vFib = false;
+}
+
+void arrhythmiadetection::setVtach(bool rythm){vTach = rythm;}
+void arrhythmiadetection::setVfib(bool rythm){vFib = rythm;}
+
+
+//detects Ventricular Tachycardia
+void arrhythmiadetection::ventricularTach(){
+
+}
+
+//detects Ventricular Tachycardia
+void arrhythmiadetection::ventricularFib(){
+
+}
+
+
+//detects non shockable rythms
+void arrhythmiadetection::nonShockable(){
 
 }

@@ -41,7 +41,7 @@ QString VisualPrompts::giveTwoBreaths() { QString str = "GIVE TWO BREATHS."; ret
 QString VisualPrompts::plugInCable() { QString str = "PLUG IN CABLE."; return str; }
 
 // ATTACH DEFIB PADS TO PATIENT’S BARE CHEST. Attach defibrillation pads to the victim’s bare chest.
-QString VisualPrompts::attchDefibPads() { QString str = "ATTACH DEFIB PADS TO PATIENT’S BARE CHEST."; return str; }
+QString VisualPrompts::attchDefibPads() { QString str = "ATTACH DEFIB PADS \nTO PATIENT’S BARE CHEST."; return str; }
 
 // CHECK ELECTRODE PADS. Previously attached electrodes are not making good contact with the victim’s skin or the electrodes are defective.
 QString VisualPrompts::checkElectrodePads() { QString str = "CHECK ELECTRODE PADS."; return str; }
@@ -53,7 +53,7 @@ QString VisualPrompts::adultPads() { QString str = "ADULT PADS."; return str; }
 QString VisualPrompts::pediatricPads() { QString str = "PEDIATRIC PADS."; return str; }
 
 // DON’T TOUCH PATIENT, ANALYZING. Do not touch the victim; an ECG rhythm analysis is in progress or about to begin.
-QString VisualPrompts::dontTouchPatient() { QString str = "DON’T TOUCH PATIENT, ANALYZING."; return str; }
+QString VisualPrompts::dontTouchPatient() { QString str = "DON’T TOUCH PATIENT\n, ANALYZING."; return str; }
 
 // SHOCK ADVISED. ECG rhythm analysis has detected the presence of ventricular fibrillation or shockable ventricular tachycardia.
 QString VisualPrompts::shockAdvised() { QString str = "SHOCK ADVISED."; return str; }
@@ -65,7 +65,7 @@ QString VisualPrompts::noShockAdvised() { QString str = "NO SHOCK ADVISED."; ret
 QString VisualPrompts::analysisHalted() { QString str = "ANALYSIS HALTED."; return str; }
 
 // SHOCK WILL BE DELIVERED IN THREE (TWO), (ONE). A shock is about to be delivered to the victim. Warn all persons attending the victim to stand clear and stop touching the victim. If the unit must be discharged before a shock is delivered, press the On/Off button.
-QString VisualPrompts::shockWillBeDelivered() { QString str = "SHOCK WILL BE DELIVERED IN THREE (TWO), (ONE)."; return str; }
+QString VisualPrompts::shockWillBeDelivered() { QString str = "SHOCK WILL BE DELIVERED\n IN THREE (TWO),(ONE)."; return str; }
 
 // SHOCK DELIVERED. A defibrillation shock has just been delivered to the victim.
 QString VisualPrompts::shochDelivered() { QString str = "SHOCK DELIVERED."; return str; }
@@ -94,7 +94,7 @@ QString VisualPrompts::stopCPR() { QString str = "STOP CPR."; return str; }
 // Non-Clinical Voice Prompts
 
 // IF NEW BATTERIES, PRESS BUTTON. Press the Battery Reset Button located in the battery compartment after replacing ALL batteries in the device with new batteries.
-QString VisualPrompts::ifNewBattiesPressButton() { QString str = "IF NEW BATTERIES, PRESS BUTTON."; return str; }
+QString VisualPrompts::ifNewBattiesPressButton() { QString str = "IF NEW BATTERIES,\n PRESS BUTTON."; return str; }
 
 // NON-RESCUE MODE. Fully Automatic AED Plus device has entered the diagnostics/data communications mode.
 QString VisualPrompts::nonRescueMode() { QString str = "NON-RESCUE MODE."; return str; }

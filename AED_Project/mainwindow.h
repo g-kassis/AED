@@ -27,21 +27,36 @@ public:
     ~MainWindow();
 
 public slots:
+
+    //On AED functions
     void onPowerButtonClicked();
     void onShockButtonClicked();
     void onPowerButtonHeld();
-    void timeElapsed();
+
+    //simulated Scenario functions
     void onCheckBox();
-    void delay(int);
+
+    //User Interaction function
+    void onPlaceElectrode();
+    void onCPRinitiation();
+    void onCallForHelp();
+    void onBatteryReset();
 
     //handle functions
     void handleVisualandVoice(QString);
+    void handleLEDs(int);
+
+    //Extras
+    void timeElapsed();
+    void delay(int);
+
 
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
     QElapsedTimer elapsedtimer;
     SimulatedScenarios Scenarios;
+    QEventLoop eventLoop;
     int min;
 };
 #endif // MAINWINDOW_H

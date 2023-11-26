@@ -16,6 +16,7 @@ public:
 
     void pediatric();
     void adult();
+    void startAnalysis();
     void startProcedure();
     void batteryTest();
     void selfTest();
@@ -24,9 +25,13 @@ public:
     void setAdultPads(bool b);
     void setPediatricPads(bool);
     void setLowBattery(bool);
+    void setElectrodeSensor(bool);
+
+    bool getElectrodeSensor();
 
 signals:
     void updateLCD(QString);
+    void updateLEDs(int);
     void delay(int);
 
 private:
@@ -37,6 +42,7 @@ private:
     bool adultPads;
     bool pediatricPads;
     bool lowBattery;
+    bool electrodeSensor;
 };
 
 #endif // SIMULATEDSCENARIOS_H
