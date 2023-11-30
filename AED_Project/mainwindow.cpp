@@ -9,6 +9,17 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeElapsed()));
 
+    //setup for ECG graph
+    ui->ECGwave->addGraph();
+    ui->ECGwave->setBackground(QColor(122, 129, 129));
+
+    ui->ECGwave->xAxis->setLabel("Time");
+    ui->ECGwave->xAxis->setRange(0,10);
+
+    ui->ECGwave->yAxis->setLabel("Voltage");
+    ui->ECGwave->yAxis->setRange(-1,2.5);
+
+
     //Buttons on AED
     connect(ui->powerButton, SIGNAL(clicked()), this, SLOT(onPowerButtonClicked()));
     connect(ui->shockButton, SIGNAL(clicked()), this, SLOT(onShockButtonClicked()));
@@ -27,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&Scenarios, SIGNAL(updateLCD(QString)), this, SLOT(handleVisualandVoice(QString)));
     connect(&Scenarios, SIGNAL(updateLEDs(int)), this, SLOT(handleLEDs(int)));
     connect(&Scenarios, SIGNAL(delay(int)), this, SLOT(delay(int)));
+    connect(&Scenarios, SIGNAL(updateECG(int)), this, SLOT(handleECG(int)));
 
 
 }
@@ -247,6 +259,20 @@ void MainWindow::handleLEDs(int pictogramID){
         }
 
     }
+}
+
+//updates the ECG waveform based on what rhythm is detected
+void MainWindow::handleECG(int rhythmId){
+
+    if(rhythmId == 1){          //vTach
+
+    }else if(rhythmId == 2){   //vFib
+
+    }else{                     //non-Shockable
+
+    }
+
+
 }
 
 void MainWindow::handleVisualandVoice(QString str){

@@ -32,6 +32,7 @@ public:
 signals:
     void updateLCD(QString);
     void updateLEDs(int);
+    void updateECG(int);
     void delay(int);
 
 private:

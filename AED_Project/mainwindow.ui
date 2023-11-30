@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>836</width>
+    <width>1124</width>
     <height>674</height>
    </rect>
   </property>
@@ -17,10 +17,10 @@
    <widget class="QGroupBox" name="lcd">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>190</y>
-      <width>161</width>
-      <height>81</height>
+      <x>239</x>
+      <y>180</y>
+      <width>181</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -49,7 +49,7 @@ border-radius:4px;</string>
     <widget class="QLabel" name="elapsedTime">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>140</x>
        <y>0</y>
        <width>41</width>
        <height>17</height>
@@ -66,8 +66,8 @@ border-radius:4px;</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>56</y>
-       <width>161</width>
+       <y>70</y>
+       <width>181</width>
        <height>21</height>
       </rect>
      </property>
@@ -81,29 +81,10 @@ border-radius:4px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="ECGwaveform">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>131</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color:black;</string>
-     </property>
-     <property name="text">
-      <string>__/___/__/__/__</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QSlider" name="verticalSlider">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>160</x>
        <y>20</y>
        <width>20</width>
        <height>41</height>
@@ -582,6 +563,16 @@ border-radius: 5px;
      </property>
     </widget>
    </widget>
+   <widget class="QCustomPlot" name="ECGwave" native="true">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>180</y>
+      <width>211</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>mainInterface</zorder>
    <zorder>lcd</zorder>
    <zorder>shockButton</zorder>
@@ -597,19 +588,28 @@ border-radius: 5px;
    <zorder>compressions_LED</zorder>
    <zorder>simScenarios</zorder>
    <zorder>userInteraction</zorder>
+   <zorder>ECGwave</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>836</width>
+     <width>1124</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="Resources.qrc"/>
  </resources>

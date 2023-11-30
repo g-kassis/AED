@@ -42,6 +42,7 @@ void SimulatedScenarios::startAnalysis(){
     updateLEDs(4);
 
     //arrhythmia detection
+
 }
 
 void SimulatedScenarios::startProcedure(){

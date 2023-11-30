@@ -6,12 +6,14 @@
 #include <QCheckBox>
 #include <QTime>
 #include <QTimer>
+#include <QColor>
 #include <QDebug>
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <QElapsedTimer>
 #include <QString>
 
+#include "qcustomplot.h"
 #include "simulatedscenarios.h"
 
 QT_BEGIN_NAMESPACE
@@ -45,6 +47,7 @@ public slots:
     //handle functions
     void handleVisualandVoice(QString);
     void handleLEDs(int);
+    void handleECG(int);
 
     //Extras
     void timeElapsed();
@@ -57,6 +60,7 @@ private:
     QElapsedTimer elapsedtimer;
     SimulatedScenarios Scenarios;
     QEventLoop eventLoop;
+    QCustomPlot ECGgraph;
     int min;
 };
 #endif // MAINWINDOW_H
