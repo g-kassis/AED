@@ -5,6 +5,8 @@
 #include <QString>
 #include <QVector>
 #include <QPair>
+#include <cmath>
+#include <iostream>
 
 class arrhythmiadetection : public QObject
 {

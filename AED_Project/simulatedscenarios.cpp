@@ -84,7 +84,7 @@ void SimulatedScenarios::startAnalysis(int shock){
     delay(5); //analysis delay
 
     //arrhythmia detection
-    int randomECG = QRandomGenerator::global()->bounded(1,3);
+    int randomECG = QRandomGenerator::global()->bounded(1,3); //50% chance between vTach and vFib
     ECGtimer = new QTimer(this);
 
     if(shock == 1){   //if user selected shockable then it randomizes between vTach and vFib rhythms
@@ -94,8 +94,8 @@ void SimulatedScenarios::startAnalysis(int shock){
             updateECG(*detection->ventricularTach());
 
         }else{                //vFib
-            ECGdata = detection->ventricularTach();
-            updateECG(*detection->ventricularTach());
+            ECGdata = detection->ventricularFib();
+            updateECG(*detection->ventricularFib());
 
         }
 

@@ -34,13 +34,21 @@ QVector<QPair<double, double>>* arrhythmiadetection::ventricularTach() {
 //detects Ventricular Fibrillation
 QVector<QPair<double, double>>* arrhythmiadetection::ventricularFib() {
     QVector<QPair<double, double>>* data = new QVector<QPair<double, double>>();
-    data->append(qMakePair(0,0));
-    data->append(qMakePair(2,-4));
-    data->append(qMakePair(3,4));
-    data->append(qMakePair(4,5));
-    data->append(qMakePair(6,3));
-    data->append(qMakePair(6.5,1));
-    data->append(qMakePair(7.5,-3));
+    data->append(qMakePair(0,1));
+    data->append(qMakePair(0.0675,0.1));
+    data->append(qMakePair(0.12,0.8));
+    data->append(qMakePair(0.1875,-2));
+    data->append(qMakePair(0.24,0.8));
+    data->append(qMakePair(0.3075,-2));
+    data->append(qMakePair(0.3675,0.8));
+    data->append(qMakePair(0.4275,0.1));
+    data->append(qMakePair(0.4875,0.8));
+    data->append(qMakePair(0.60,2.25));
+    data->append(qMakePair(0.725,-1));
+    data->append(qMakePair(0.7875,-0.1));
+    data->append(qMakePair(0.8675,-1));
+    data->append(qMakePair(0.9375,1));
+
 
     return data;
 }

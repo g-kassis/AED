@@ -313,6 +313,9 @@ void MainWindow::handleContinueRhythm(QVector<QPair<double,double>> *ECGdata){
 
         ui->ECGwave->replot();
         (*ECGdata)[i] = qMakePair((*ECGdata)[i].first + delta, (*ECGdata)[i].second);
+        if((*ECGdata)[i].first > ui->ECGwave->xAxis->range().upper){
+            ui->ECGwave->xAxis->setRange(ui->ECGwave->xAxis->range().lower + 10,ui->ECGwave->xAxis->range().upper + 10);
+        }
         ui->ECGwave->graph(0)->addData(ECGdata->at(i).first,ECGdata->at(i).second);
         ui->ECGwave->replot();
 
