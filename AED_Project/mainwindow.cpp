@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&Scenarios, SIGNAL(updateLEDs(int)), this, SLOT(handleLEDs(int)));
     connect(&Scenarios, SIGNAL(delay(int)), this, SLOT(delay(int)));
     connect(&Scenarios, SIGNAL(updateECG(QVector<QPair<double,double>>)), this, SLOT(handleECG(QVector<QPair<double,double>>)));
+    connect(&Scenarios, SIGNAL(continueRhythm(QVector<QPair<double,double>>*)), this, SLOT(handleContinueRhythm(QVector<QPair<double,double>>*)));
     connect(&Scenarios, SIGNAL(updateIndicator(int)), this, SLOT(handleIndicator(int)));
 
 
@@ -284,7 +285,7 @@ void MainWindow::handleLEDs(int pictogramID){
     }
 }
 
-//updates the ECG waveform based on what rhythm is detected
+//updates the ECG waveform based on what rhythm is detected (plots the original first wave)
 void MainWindow::handleECG(QVector<QPair<double,double>> ECGdata){
     qInfo("graphing...");
     for(int i = 0; i < ECGdata.size(); i++){
@@ -292,10 +293,30 @@ void MainWindow::handleECG(QVector<QPair<double,double>> ECGdata){
         ui->ECGwave->replot();
         ui->ECGwave->graph(0)->addData(ECGdata.at(i).first,ECGdata.at(i).second);
         ui->ECGwave->replot();
-        delay(1);
 
     }
 
+}
+
+//updates the graph (continues plots the original first wave)
+void MainWindow::handleContinueRhythm(QVector<QPair<double,double>> *ECGdata){
+    qInfo("continue graphing...");
+    double delta;
+    if(ui->shockableScenario->isChecked()){
+        delta = 0.9375;
+    }else{
+        delta = 2;
+
+    }
+
+    for(int i = 0; i < ECGdata->size(); i++){
+
+        ui->ECGwave->replot();
+        (*ECGdata)[i] = qMakePair((*ECGdata)[i].first + delta, (*ECGdata)[i].second);
+        ui->ECGwave->graph(0)->addData(ECGdata->at(i).first,ECGdata->at(i).second);
+        ui->ECGwave->replot();
+
+    }
 }
 
 void MainWindow::handleIndicator(int indicator){

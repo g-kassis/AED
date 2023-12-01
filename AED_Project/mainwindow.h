@@ -50,6 +50,7 @@ public slots:
     void handleIndicator(int);
     void handleLEDs(int);
     void handleECG(QVector<QPair<double,double>>);
+    void handleContinueRhythm(QVector<QPair<double, double>>*);
 
     //Extras
     void timeElapsed();

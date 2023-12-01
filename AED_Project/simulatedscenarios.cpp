@@ -2,14 +2,16 @@
 
 SimulatedScenarios::SimulatedScenarios()
 {
-    CPRfeedback *cprFb;
-    VisualPrompts *display;
-    arrhythmiadetection *detection;
+    cprFb = new CPRfeedback;
+    display = new VisualPrompts;
+    detection = new arrhythmiadetection;
 
     adultPads = false;
     pediatricPads = false;
     lowBattery = false;
     electrodeSensor = false;
+
+    ECGdata = new QVector<QPair<double, double>>;
 }
 
 
@@ -83,32 +85,30 @@ void SimulatedScenarios::startAnalysis(int shock){
 
     //arrhythmia detection
     int randomECG = QRandomGenerator::global()->bounded(1,3);
-    if(shock == 1){   //if user selected shockable then it randomizes between vTach and vFib rhythms
+    ECGtimer = new QTimer(this);
 
-        QVector<QPair<double,double>> ECGdata;
+    if(shock == 1){   //if user selected shockable then it randomizes between vTach and vFib rhythms
 
         if(randomECG == 1){   //vTach
             ECGdata = detection->ventricularTach();
-            updateECG(ECGdata);
+            updateECG(*detection->ventricularTach());
 
         }else{                //vFib
             ECGdata = detection->ventricularTach();
-            updateECG(ECGdata);
-
-
-        }
-
-    }else{   //if user selected shockable then it randomizes between normal and pulseless rhythms
-
-        if(randomECG == 1){   //normal
-
-
-        }else{               //pulseless
+            updateECG(*detection->ventricularTach());
 
         }
+
+    }else{   //if user selected non-shockable (normal ECG rhythm)
+
+        ECGdata = detection->nonShockable();
+        updateECG(*detection->nonShockable());
+
     }
 
 
+    connect(ECGtimer, SIGNAL(timeout()), this, SLOT(newValues()));
+    ECGtimer->start(5000);
 
 }
 
@@ -154,4 +154,9 @@ void SimulatedScenarios::selfTest(){
         }
     }
 
+}
+
+//sends updated ECG rhythm values
+void SimulatedScenarios::newValues(){
+    continueRhythm(ECGdata);
 }

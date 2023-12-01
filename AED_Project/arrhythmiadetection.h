@@ -15,9 +15,9 @@ public:
     void setVfib(bool rythm);
     void setVtach(bool rythm);
 
-    QVector<QPair<double,double>> ventricularTach();
-    QVector<QPair<double,double>> ventricularFib();
-    void nonShockable();
+    QVector<QPair<double,double>>* ventricularTach();
+    QVector<QPair<double,double>>* ventricularFib();
+    QVector<QPair<double,double>>* nonShockable();
 
 private:
     bool vTach;

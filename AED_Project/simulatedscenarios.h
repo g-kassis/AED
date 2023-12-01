@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QString>
 #include <QVector>
+#include <QTime>
+#include <QTimer>
 #include <QPair>
 #include <QRandomGenerator>
 #include "cprfeedback.h"
@@ -33,17 +35,25 @@ public:
     bool getElectrodeSensor();
     bool getBatterySensor();
 
+
 signals:
     void updateIndicator(int);
     void updateLCD(QString);
     void updateLEDs(int);
     void updateECG(QVector<QPair<double,double>>);
+    void continueRhythm(QVector<QPair<double,double>>*);
     void delay(int);
+
+public slots:
+    void newValues();
+
 
 private:
     CPRfeedback *cprFb;
     VisualPrompts *display;
     arrhythmiadetection *detection;
+    QTimer *ECGtimer;
+    QVector<QPair<double,double>> *ECGdata;
 
     bool adultPads;
     bool pediatricPads;
