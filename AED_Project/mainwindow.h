@@ -6,6 +6,7 @@
 #include <QCheckBox>
 #include <QTime>
 #include <QTimer>
+#include <QVector2D>
 #include <QColor>
 #include <QDebug>
 #include <QCoreApplication>
@@ -46,8 +47,9 @@ public slots:
 
     //handle functions
     void handleVisualandVoice(QString);
+    void handleIndicator(int);
     void handleLEDs(int);
-    void handleECG(int);
+    void handleECG(QVector<QPair<double,double>>);
 
     //Extras
     void timeElapsed();

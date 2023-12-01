@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1124</width>
-    <height>674</height>
+    <height>708</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -397,8 +397,8 @@ border-radius: 5px;
    <widget class="QGroupBox" name="simScenarios">
     <property name="geometry">
      <rect>
-      <x>679</x>
-      <y>30</y>
+      <x>680</x>
+      <y>10</y>
       <width>141</width>
       <height>191</height>
      </rect>
@@ -432,7 +432,7 @@ border-radius: 5px;
       <string>Adult Pads</string>
      </property>
     </widget>
-    <widget class="QRadioButton" name="normalOperationScenarioButton">
+    <widget class="QRadioButton" name="shockableScenario">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -445,7 +445,7 @@ border-radius: 5px;
       <string>Shockable ECG</string>
      </property>
     </widget>
-    <widget class="QRadioButton" name="badECGrythmButton">
+    <widget class="QRadioButton" name="nonShockableScenario">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -476,7 +476,7 @@ border-radius: 5px;
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>270</y>
+      <y>360</y>
       <width>141</width>
       <height>271</height>
      </rect>
@@ -566,9 +566,9 @@ border-radius: 5px;
    <widget class="QCustomPlot" name="ECGwave" native="true">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>180</y>
-      <width>211</width>
+      <x>680</x>
+      <y>210</y>
+      <width>401</width>
       <height>151</height>
      </rect>
     </property>

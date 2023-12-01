@@ -2,6 +2,9 @@
 #define ARRHYTHMIADETECTION_H
 
 #include <QObject>
+#include <QString>
+#include <QVector>
+#include <QPair>
 
 class arrhythmiadetection : public QObject
 {
@@ -12,8 +15,8 @@ public:
     void setVfib(bool rythm);
     void setVtach(bool rythm);
 
-    void ventricularTach();
-    void ventricularFib();
+    QVector<QPair<double,double>> ventricularTach();
+    QVector<QPair<double,double>> ventricularFib();
     void nonShockable();
 
 private:

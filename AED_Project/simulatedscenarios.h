@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QString>
+#include <QVector>
+#include <QPair>
+#include <QRandomGenerator>
 #include "cprfeedback.h"
 #include "visualprompts.h"
 #include "arrhythmiadetection.h"
@@ -16,7 +19,7 @@ public:
 
     void pediatric();
     void adult();
-    void startAnalysis();
+    void startAnalysis(int);
     void startProcedure();
     void batteryTest();
     void selfTest();
@@ -28,11 +31,13 @@ public:
     void setElectrodeSensor(bool);
 
     bool getElectrodeSensor();
+    bool getBatterySensor();
 
 signals:
+    void updateIndicator(int);
     void updateLCD(QString);
     void updateLEDs(int);
-    void updateECG(int);
+    void updateECG(QVector<QPair<double,double>>);
     void delay(int);
 
 private:

@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ECGwave->xAxis->setRange(0,10);
 
     ui->ECGwave->yAxis->setLabel("Voltage");
-    ui->ECGwave->yAxis->setRange(-1,2.5);
+    ui->ECGwave->yAxis->setRange(-2.5,2.5);
 
 
     //Buttons on AED
@@ -38,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&Scenarios, SIGNAL(updateLCD(QString)), this, SLOT(handleVisualandVoice(QString)));
     connect(&Scenarios, SIGNAL(updateLEDs(int)), this, SLOT(handleLEDs(int)));
     connect(&Scenarios, SIGNAL(delay(int)), this, SLOT(delay(int)));
-    connect(&Scenarios, SIGNAL(updateECG(int)), this, SLOT(handleECG(int)));
+    connect(&Scenarios, SIGNAL(updateECG(QVector<QPair<double,double>>)), this, SLOT(handleECG(QVector<QPair<double,double>>)));
+    connect(&Scenarios, SIGNAL(updateIndicator(int)), this, SLOT(handleIndicator(int)));
 
 
 }
@@ -53,10 +54,10 @@ void MainWindow::onPowerButtonClicked(){
     qInfo("Power Button Clicked");
 
     //checks if a Simulated Scenario has been chosen
-    if(ui->normalOperationScenarioButton->isChecked()){
+    if(ui->shockableScenario->isChecked()){
         qInfo("Shockable ECG");
         Scenarios.setLowBattery(false);
-    }else if(ui->badECGrythmButton->isChecked()){
+    }else if(ui->nonShockableScenario->isChecked()){
         qInfo("non-shock ECG");
         Scenarios.setLowBattery(false);
     }else if(ui->lowBatteryScenarioButton->isChecked()){
@@ -80,7 +81,6 @@ void MainWindow::onPowerButtonClicked(){
     //self test (check batteries, check LEDs...)
     Scenarios.selfTest();
 
-    ui->statusIndicator->setPixmap(QPixmap(":/Images/greenCheck.jpg"));
 
     timer->start(1000);
     elapsedtimer.start();
@@ -93,11 +93,27 @@ void MainWindow::onPowerButtonClicked(){
     }
 
     //waits for operator to place pads on patient
-    while(!Scenarios.getElectrodeSensor()){
-        delay(1);
-        Scenarios.startProcedure();
+    if(Scenarios.getBatterySensor() == false){
+        handleIndicator(1);
+        while(!Scenarios.getElectrodeSensor()){
+            delay(1);
+            Scenarios.startProcedure();
+        }
+
+        //checks if schockable or non-shockable rhythm
+        if(ui->nonShockableScenario->isChecked()){
+            Scenarios.startAnalysis(0); //non-shockable scenario
+        }else{
+            Scenarios.startAnalysis(1); //shockable scenario
+        }
+
+    }else{
+        handleIndicator(0);
+        ui->lcd->hide();
+        ui->statusIndicator->hide();
+        ui->mainInterface->setPixmap(QPixmap(":/Images/AED_Battery.jpg"));
     }
-    Scenarios.startAnalysis();
+
 
 }
 
@@ -135,8 +151,11 @@ void MainWindow::onCallForHelp(){
 
 void MainWindow::onBatteryReset(){
     qInfo("Battery Reset clicked");
-    ui->normalOperationScenarioButton->setChecked(true);
+    ui->shockableScenario->setChecked(true);
     Scenarios.setLowBattery(false);
+    ui->mainInterface->setPixmap(QPixmap(":/Images/3004project.jpg"));
+    ui->lcd->show();
+    ui->statusIndicator->show();
 
 
 }
@@ -193,6 +212,9 @@ void MainWindow::handleLEDs(int pictogramID){
         ui->shock_LED->show();
         delay(1);
         ui->shock_LED->hide();
+        if(ui->childCheckBox->isChecked()){ //pediatric pads
+            ui->child_LED->show();
+        }
 
     }else{  //other cases
 
@@ -258,21 +280,30 @@ void MainWindow::handleLEDs(int pictogramID){
 
         }
 
+
     }
 }
 
 //updates the ECG waveform based on what rhythm is detected
-void MainWindow::handleECG(int rhythmId){
+void MainWindow::handleECG(QVector<QPair<double,double>> ECGdata){
+    qInfo("graphing...");
+    for(int i = 0; i < ECGdata.size(); i++){
 
-    if(rhythmId == 1){          //vTach
-
-    }else if(rhythmId == 2){   //vFib
-
-    }else{                     //non-Shockable
+        ui->ECGwave->replot();
+        ui->ECGwave->graph(0)->addData(ECGdata.at(i).first,ECGdata.at(i).second);
+        ui->ECGwave->replot();
+        delay(1);
 
     }
 
+}
 
+void MainWindow::handleIndicator(int indicator){
+    if(indicator == 0){
+        ui->statusIndicator->setPixmap(QPixmap(":/Images/redX.jpg"));
+    }else{
+        ui->statusIndicator->setPixmap(QPixmap(":/Images/greenCheck.jpg"));
+    }
 }
 
 void MainWindow::handleVisualandVoice(QString str){
