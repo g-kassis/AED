@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Connect signals from simulatedScenarios
     connect(&Scenarios, SIGNAL(updateLCD(QString)), this, SLOT(handleVisualandVoice(QString)));
     connect(&Scenarios, SIGNAL(updateLEDs(int)), this, SLOT(handleLEDs(int)));
+    connect(&Scenarios, SIGNAL(updateNumShocks(int)), this, SLOT(handleNumShocks(int)));
     connect(&Scenarios, SIGNAL(delay(int)), this, SLOT(delay(int)));
     connect(&Scenarios, SIGNAL(updateECG(QVector<QPair<double,double>>)), this, SLOT(handleECG(QVector<QPair<double,double>>)));
     connect(&Scenarios, SIGNAL(continueRhythm(QVector<QPair<double,double>>*)), this, SLOT(handleContinueRhythm(QVector<QPair<double,double>>*)));
@@ -71,6 +72,8 @@ void MainWindow::onPowerButtonClicked(){
 
     min = 0;
 
+    ui->numberOfShocks->setText("SHOCKS: 0");
+
     ui->child_LED->hide();
     ui->ok_LED->hide();
     ui->ambulance_LED->hide();
@@ -87,7 +90,10 @@ void MainWindow::onPowerButtonClicked(){
     elapsedtimer.start();
 
     //waits for user to choose if patient is adult or pediatric (if they haven't already)
-    if(!ui->adultCheckBox->isChecked() && !ui->childCheckBox->isChecked()){
+    if(Scenarios.getBatterySensor() == true){
+        //don't do anything
+    }
+    else if(!ui->adultCheckBox->isChecked() && !ui->childCheckBox->isChecked()){
         eventLoop.exec();
         Scenarios.adult();
         Scenarios.pediatric();
@@ -131,8 +137,11 @@ void MainWindow::onPowerButtonHeld(){
 
 void MainWindow::onShockButtonClicked(){
     qInfo("Shock Button Clicked");
+    Scenarios.deliverShock();
+}
 
-
+void MainWindow::handleNumShocks(int n){
+    ui->numberOfShocks->setText("SHOCKS: " + QString::number(n));
 }
 
 void MainWindow::onPlaceElectrode(){
@@ -143,7 +152,7 @@ void MainWindow::onPlaceElectrode(){
 }
 
 void MainWindow::onCPRinitiation(){
-
+    Scenarios.CPRprocedure();
 }
 
 void MainWindow::onCallForHelp(){

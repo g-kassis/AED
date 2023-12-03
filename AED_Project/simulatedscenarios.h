@@ -23,6 +23,8 @@ public:
     void adult();
     void startAnalysis(int);
     void startProcedure();
+    void deliverShock();
+    void CPRprocedure();
     void batteryTest();
     void selfTest();
 
@@ -40,6 +42,7 @@ signals:
     void updateIndicator(int);
     void updateLCD(QString);
     void updateLEDs(int);
+    void updateNumShocks(int);
     void updateECG(QVector<QPair<double,double>>);
     void continueRhythm(QVector<QPair<double,double>>*);
     void delay(int);
@@ -54,6 +57,7 @@ private:
     arrhythmiadetection *detection;
     QTimer *ECGtimer;
     QVector<QPair<double,double>> *ECGdata;
+    int numShocks;
 
     bool adultPads;
     bool pediatricPads;

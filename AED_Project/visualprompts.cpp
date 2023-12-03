@@ -74,7 +74,7 @@ QString VisualPrompts::shochDelivered() { QString str = "SHOCK DELIVERED."; retu
 QString VisualPrompts::noShockDelivered() { QString str = "NO SHOCK DELIVERED."; return str; }
 
 // n SHOCKS DELIVERED. A total of n shocks have been delivered since the Fully Automatic AED Plus was turned on.
-QString VisualPrompts::NshocksDelivered() { QString str = "n SHOCKS DELIVERED."; return str; }
+QString VisualPrompts::NshocksDelivered() { QString str = " SHOCKS DELIVERED."; return str; }
 
 // START CPR. Begin CPR.
 QString VisualPrompts::startCPR() { QString str = "START CPR."; return str; }

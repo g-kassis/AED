@@ -6,6 +6,7 @@ SimulatedScenarios::SimulatedScenarios()
     display = new VisualPrompts;
     detection = new arrhythmiadetection;
 
+    numShocks = 0;
     adultPads = false;
     pediatricPads = false;
     lowBattery = false;
@@ -81,7 +82,7 @@ void SimulatedScenarios::startAnalysis(int shock){
     updateLCD(display->dontTouchPatient());
     updateLEDs(4);
 
-    delay(5); //analysis delay
+//    delay(5); //analysis delay
 
     //arrhythmia detection
     int randomECG = QRandomGenerator::global()->bounded(1,3); //50% chance between vTach and vFib
@@ -97,6 +98,7 @@ void SimulatedScenarios::startAnalysis(int shock){
             ECGdata = detection->ventricularFib();
             updateECG(*detection->ventricularFib());
 
+
         }
 
     }else{   //if user selected non-shockable (normal ECG rhythm)
@@ -109,6 +111,61 @@ void SimulatedScenarios::startAnalysis(int shock){
 
     connect(ECGtimer, SIGNAL(timeout()), this, SLOT(newValues()));
     ECGtimer->start(5000);
+
+    delay(5); //analysis delay
+
+    //shock advised or not advised depending on scenario selection
+    if(shock == 1){
+        updateLCD(display->shockAdvised());
+        updateLEDs(7); //shock LED
+    }else{
+        updateLCD(display->noShockAdvised());
+        updateLEDs(5); //cpr LED
+        delay(2);
+        updateLCD(display->startCPR());
+    }
+
+}
+
+//once cpr initiation button is pressed
+void SimulatedScenarios::CPRprocedure(){
+    updateLCD(display->continueCPR());
+    delay(20); //20 sec delay for cpr
+
+    //implement cprfeedback belows
+
+    //stops cpr to begin analysis again
+    updateLCD(display->stopCPR());
+
+    //50% chance of patient being cured or requires more help
+    int randomChance = QRandomGenerator::global()->bounded(0,2);
+    if(randomChance == 0){
+        //end of sim
+        updateLCD(QString::number(numShocks)+display->NshocksDelivered());
+
+    }else{
+        //continue help
+        startAnalysis(randomChance);
+    }
+
+}
+
+//shock delivery
+void SimulatedScenarios::deliverShock(){
+    //warns user of shock in 3sec
+    updateLCD(display->shockWillBeDelivered());
+    delay(2);
+
+    //shock delivered
+    updateLCD(display->shochDelivered());
+    delay(1);
+    numShocks++;
+    updateNumShocks(numShocks);
+    delay(1);
+
+    //start cpr and cpr LED on
+    updateLEDs(5);
+    updateLCD(display->startCPR());
 
 }
 

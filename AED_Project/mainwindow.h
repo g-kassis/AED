@@ -49,6 +49,7 @@ public slots:
     void handleVisualandVoice(QString);
     void handleIndicator(int);
     void handleLEDs(int);
+    void handleNumShocks(int);
     void handleECG(QVector<QPair<double,double>>);
     void handleContinueRhythm(QVector<QPair<double, double>>*);
 
