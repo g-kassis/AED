@@ -20,6 +20,7 @@ public:
     QVector<QPair<double,double>>* ventricularTach();
     QVector<QPair<double,double>>* ventricularFib();
     QVector<QPair<double,double>>* nonShockable();
+    QVector<QPair<double, double>>* flatline();
 
 private:
     bool vTach;

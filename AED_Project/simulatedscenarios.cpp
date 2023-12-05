@@ -7,12 +7,16 @@ SimulatedScenarios::SimulatedScenarios()
     detection = new arrhythmiadetection;
 
     numShocks = 0;
+    cprTime = 0;
     adultPads = false;
     pediatricPads = false;
     lowBattery = false;
     electrodeSensor = false;
 
     ECGdata = new QVector<QPair<double, double>>;
+
+    connect(cprFb, SIGNAL(updateLCD(QString, double)), this, SLOT(handleDepthAnalysis(QString, double)));
+
 }
 
 
@@ -20,8 +24,12 @@ void SimulatedScenarios::setAdultPads(bool b){adultPads = b;}
 void SimulatedScenarios::setPediatricPads(bool b){pediatricPads = b;}
 void SimulatedScenarios::setLowBattery(bool b){lowBattery = b;}
 void SimulatedScenarios::setElectrodeSensor(bool b){electrodeSensor = b;}
+void SimulatedScenarios::setECGdataRhythm(QString str){ECGdataRhythm = str;}
+
+
 bool SimulatedScenarios::getElectrodeSensor(){return electrodeSensor;}
 bool SimulatedScenarios::getBatterySensor(){return lowBattery;}
+QString SimulatedScenarios::getECGdataRhythm(){return ECGdataRhythm;}
 
 
 //After the Fully Automatic AED Plus is powered on and completes its self-test, the unit will issue
@@ -77,15 +85,14 @@ void SimulatedScenarios::startProcedure(){
 //As soon as electrodes are attached to the victim and impedance of the connection is
 //verified, the unit stops cycling through the check responsivness, call for help and attach pads to patient sequence
 //and automatically begins analysis of the ECG rhythm
-void SimulatedScenarios::startAnalysis(int shock){
+void SimulatedScenarios::startAnalysis(int shock){    //shock decides shockable or non-shockable (1 shockable, 0 non-shoc)
     //warns operator to not move patient
     updateLCD(display->dontTouchPatient());
     updateLEDs(4);
 
-//    delay(5); //analysis delay
 
     //arrhythmia detection
-    int randomECG = QRandomGenerator::global()->bounded(1,3); //50% chance between vTach and vFib
+    int randomECG = QRandomGenerator::global()->bounded(1,3); //50% chance between vTach and vFib (set randomECG = 1 for vTach else for Vfib)
     ECGtimer = new QTimer(this);
 
     if(shock == 1){   //if user selected shockable then it randomizes between vTach and vFib rhythms
@@ -93,21 +100,19 @@ void SimulatedScenarios::startAnalysis(int shock){
         if(randomECG == 1){   //vTach
             ECGdata = detection->ventricularTach();
             updateECG(*detection->ventricularTach());
+            setECGdataRhythm("vTach");
 
         }else{                //vFib
             ECGdata = detection->ventricularFib();
             updateECG(*detection->ventricularFib());
-
-
+            setECGdataRhythm("vFib");
         }
 
     }else{   //if user selected non-shockable (normal ECG rhythm)
-
         ECGdata = detection->nonShockable();
         updateECG(*detection->nonShockable());
-
+        setECGdataRhythm("non");
     }
-
 
     connect(ECGtimer, SIGNAL(timeout()), this, SLOT(newValues()));
     ECGtimer->start(5000);
@@ -118,6 +123,8 @@ void SimulatedScenarios::startAnalysis(int shock){
     if(shock == 1){
         updateLCD(display->shockAdvised());
         updateLEDs(7); //shock LED
+        updateShockSafety(false); //sets safety to off
+
     }else{
         updateLCD(display->noShockAdvised());
         updateLEDs(5); //cpr LED
@@ -130,22 +137,69 @@ void SimulatedScenarios::startAnalysis(int shock){
 //once cpr initiation button is pressed
 void SimulatedScenarios::CPRprocedure(){
     updateLCD(display->continueCPR());
-    delay(20); //20 sec delay for cpr
+    delay(5); //sec delay for cpr
 
-    //implement cprfeedback belows
-
-    //stops cpr to begin analysis again
+    //cprfeedback tracker
+    cprFb->setCPRstatus(true);
+    cprFb->cprDepthAnalysis();
+    qInfo("reached");
     updateLCD(display->stopCPR());
 
+}
+
+//once user stops cpr (clicks stop cpr button)
+//decision on what happens next
+// 1. non shockable
+// 2. shockable
+// 3. patient flatlined
+// 4. patient cured
+void SimulatedScenarios::stopCPR(){
+
+//    clearECG();
+
     //50% chance of patient being cured or requires more help
-    int randomChance = QRandomGenerator::global()->bounded(0,2);
-    if(randomChance == 0){
+    int randomChance = QRandomGenerator::global()->bounded(0,3);
+
+    if(randomChance == 0){ //shock will = 0 (normal ecg)
         //end of sim
         updateLCD(QString::number(numShocks)+display->NshocksDelivered());
 
-    }else{
+    }else if(randomChance == 2){  //flatline
+        ECGdata = (detection->flatline());
+        setECGdataRhythm("flatline");
+        updateLCD(QString::number(numShocks)+display->NshocksDelivered());
+
+
+    }else{ // shock will = 1
         //continue help
-        startAnalysis(randomChance);
+        qInfo("else");
+        //startAnalysis(randomChance);
+
+    }
+
+}
+
+//contols of cpr depth and slider and instruction updates
+//sends signals to the mainwindow
+void SimulatedScenarios::handleDepthAnalysis(QString status, double depth){
+    if(status == "bad"){
+        updateLCD(display->pushHarder());
+        updateDepth(depth);
+
+    }else if(status == "good"){
+        updateLCD(display->goodCompressions());
+        updateDepth(depth);
+    }
+
+    //cpr length (delays 5 times for 2seconds)
+    delay(2);
+    cprTime+=2;
+
+    if(cprTime == 20){  //increase or decrease for cpr time
+
+        updateDepth(0);
+        cprFb->setCPRstatus(false);
+
     }
 
 }
@@ -215,5 +269,5 @@ void SimulatedScenarios::selfTest(){
 
 //sends updated ECG rhythm values
 void SimulatedScenarios::newValues(){
-    continueRhythm(ECGdata);
+    continueRhythm(ECGdata, ECGdataRhythm);
 }

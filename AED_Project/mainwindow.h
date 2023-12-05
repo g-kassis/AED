@@ -42,7 +42,7 @@ public slots:
     //User Interaction function
     void onPlaceElectrode();
     void onCPRinitiation();
-    void onCallForHelp();
+    void onStopCPR();
     void onBatteryReset();
 
     //handle functions
@@ -50,8 +50,11 @@ public slots:
     void handleIndicator(int);
     void handleLEDs(int);
     void handleNumShocks(int);
+    void handleShockSafety(bool);
     void handleECG(QVector<QPair<double,double>>);
-    void handleContinueRhythm(QVector<QPair<double, double>>*);
+    void handleResetECG();
+    void handleUpdateDepth(double);
+    void handleContinueRhythm(QVector<QPair<double, double>>*, QString);
 
     //Extras
     void timeElapsed();

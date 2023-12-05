@@ -25,30 +25,38 @@ public:
     void startProcedure();
     void deliverShock();
     void CPRprocedure();
+    void stopCPR();
     void batteryTest();
     void selfTest();
+
 
     //setter
     void setAdultPads(bool b);
     void setPediatricPads(bool);
     void setLowBattery(bool);
     void setElectrodeSensor(bool);
+    void setECGdataRhythm(QString);
 
     bool getElectrodeSensor();
     bool getBatterySensor();
+    QString getECGdataRhythm();
 
 
 signals:
     void updateIndicator(int);
+    void clearECG();
     void updateLCD(QString);
     void updateLEDs(int);
+    void updateDepth(double);
+    void updateShockSafety(bool);
     void updateNumShocks(int);
     void updateECG(QVector<QPair<double,double>>);
-    void continueRhythm(QVector<QPair<double,double>>*);
+    void continueRhythm(QVector<QPair<double,double>>*, QString);
     void delay(int);
 
 public slots:
     void newValues();
+    void handleDepthAnalysis(QString, double);
 
 
 private:
@@ -57,12 +65,15 @@ private:
     arrhythmiadetection *detection;
     QTimer *ECGtimer;
     QVector<QPair<double,double>> *ECGdata;
+    QString ECGdataRhythm;
     int numShocks;
+    int cprTime;
 
     bool adultPads;
     bool pediatricPads;
     bool lowBattery;
     bool electrodeSensor;
+
 };
 
 #endif // SIMULATEDSCENARIOS_H

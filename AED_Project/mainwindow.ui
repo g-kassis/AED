@@ -81,7 +81,7 @@ border-radius:4px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QSlider" name="verticalSlider">
+    <widget class="QSlider" name="cprDepth">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -523,7 +523,7 @@ border-radius: 5px;
       <string>Battery Reset</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="callForHelpBUtton">
+    <widget class="QPushButton" name="stopCPRbutton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -533,7 +533,7 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>Call For Help</string>
+      <string>Stop CPR</string>
      </property>
     </widget>
     <widget class="QPushButton" name="cprButton_3">
@@ -573,6 +573,65 @@ border-radius: 5px;
      </rect>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>839</x>
+      <y>360</y>
+      <width>241</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Audio </string>
+    </property>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>221</width>
+       <height>221</height>
+      </rect>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>219</width>
+        <height>219</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(122, 129, 129);
+border-radius:4px;</string>
+      </property>
+      <widget class="QLabel" name="AudioBox">
+       <property name="geometry">
+        <rect>
+         <x>1</x>
+         <y>-4</y>
+         <width>221</width>
+         <height>221</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: black;</string>
+       </property>
+       <property name="text">
+        <string>AUDIO</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
    <zorder>mainInterface</zorder>
    <zorder>lcd</zorder>
    <zorder>shockButton</zorder>
@@ -589,6 +648,7 @@ border-radius: 5px;
    <zorder>simScenarios</zorder>
    <zorder>userInteraction</zorder>
    <zorder>ECGwave</zorder>
+   <zorder>groupBox</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     //setup for ECG graph
     ui->ECGwave->addGraph();
     ui->ECGwave->setBackground(QColor(122, 129, 129));
+//    ui->ECGwave->graph(0)->pen(QColor(122, 129, 129));
 
     ui->ECGwave->xAxis->setLabel("Time");
     ui->ECGwave->xAxis->setRange(0,10);
@@ -19,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ECGwave->yAxis->setLabel("Voltage");
     ui->ECGwave->yAxis->setRange(-2.5,2.5);
 
+    //audio textbox
+    ui->AudioBox->setDisabled(true); //user cant access (read-only)
 
     //Buttons on AED
     connect(ui->powerButton, SIGNAL(clicked()), this, SLOT(onPowerButtonClicked()));
@@ -33,14 +36,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->batteryResetButton, SIGNAL(clicked()), this, SLOT(onBatteryReset()));
     connect(ui->electrodeButton, SIGNAL(clicked()), this, SLOT(onPlaceElectrode()));
     connect(ui->cprButton, SIGNAL(clicked()), this, SLOT(onCPRinitiation()));
+    connect(ui->stopCPRbutton , SIGNAL(clicked()), this, SLOT(onStopCPR()));
 
     //Connect signals from simulatedScenarios
     connect(&Scenarios, SIGNAL(updateLCD(QString)), this, SLOT(handleVisualandVoice(QString)));
     connect(&Scenarios, SIGNAL(updateLEDs(int)), this, SLOT(handleLEDs(int)));
+    connect(&Scenarios, SIGNAL(updateDepth(double)), this, SLOT(handleUpdateDepth(double)));
     connect(&Scenarios, SIGNAL(updateNumShocks(int)), this, SLOT(handleNumShocks(int)));
+    connect(&Scenarios, SIGNAL(updateShockSafety(bool)), this, SLOT(handleShockSafety(bool)));
     connect(&Scenarios, SIGNAL(delay(int)), this, SLOT(delay(int)));
     connect(&Scenarios, SIGNAL(updateECG(QVector<QPair<double,double>>)), this, SLOT(handleECG(QVector<QPair<double,double>>)));
-    connect(&Scenarios, SIGNAL(continueRhythm(QVector<QPair<double,double>>*)), this, SLOT(handleContinueRhythm(QVector<QPair<double,double>>*)));
+    connect(&Scenarios, SIGNAL(clearECG()), this, SLOT(handleResetECG()));
+    connect(&Scenarios, SIGNAL(continueRhythm(QVector<QPair<double,double>>*, QString)), this, SLOT(handleContinueRhythm(QVector<QPair<double,double>>*, QString)));
     connect(&Scenarios, SIGNAL(updateIndicator(int)), this, SLOT(handleIndicator(int)));
 
 
@@ -138,6 +145,13 @@ void MainWindow::onPowerButtonHeld(){
 void MainWindow::onShockButtonClicked(){
     qInfo("Shock Button Clicked");
     Scenarios.deliverShock();
+
+    handleShockSafety(true);
+}
+
+//shock button safety (don't want it pressed anytime)
+void MainWindow::handleShockSafety(bool safety){
+    ui->shockButton->setDisabled(safety);
 }
 
 void MainWindow::handleNumShocks(int n){
@@ -155,8 +169,8 @@ void MainWindow::onCPRinitiation(){
     Scenarios.CPRprocedure();
 }
 
-void MainWindow::onCallForHelp(){
-
+void MainWindow::onStopCPR(){
+    Scenarios.stopCPR();
 }
 
 void MainWindow::onBatteryReset(){
@@ -307,24 +321,57 @@ void MainWindow::handleECG(QVector<QPair<double,double>> ECGdata){
 
 }
 
+//resets graph for new ECG Rhythm
+void MainWindow::handleResetECG(){
+
+    ui->ECGwave->graph(0)->data().reset();
+    ui->ECGwave->replot();
+}
+
+//moves the slider up and down depending on depth
+void MainWindow::handleUpdateDepth(double depth){
+
+    ui->cprDepth->setSliderPosition(depth);
+}
+
 //updates the graph (continues plots the original first wave)
-void MainWindow::handleContinueRhythm(QVector<QPair<double,double>> *ECGdata){
+void MainWindow::handleContinueRhythm(QVector<QPair<double,double>> *ECGdata, QString rhythm){
     qInfo("continue graphing...");
     double delta;
-    if(ui->shockableScenario->isChecked()){
+    if(rhythm == "vTach" || rhythm == "vFib"){
         delta = 0.9375;
     }else{
         delta = 2;
 
     }
 
+    double lastPlottedX = 0.0;
+    double lastPlottedY = 0.0;
+    auto plotData = ui->ECGwave->graph(0)->data();
+    for (int i = 0 ; i < plotData->size() ; ++i) {
+         lastPlottedX = plotData->at(i)->key;
+         lastPlottedY = plotData->at(i)->value;
+    }
+    qInfo () << "X:" << lastPlottedX;
+    qInfo () << "Y:" << lastPlottedY;
+    qInfo () << rhythm;
+
+
     for(int i = 0; i < ECGdata->size(); i++){
 
         ui->ECGwave->replot();
-        (*ECGdata)[i] = qMakePair((*ECGdata)[i].first + delta, (*ECGdata)[i].second);
+
+        if(rhythm == "flatline"){
+            (*ECGdata)[i] = qMakePair(lastPlottedX + delta, (*ECGdata)[i].second);
+        }else{
+            (*ECGdata)[i] = qMakePair((*ECGdata)[i].first + delta, (*ECGdata)[i].second);
+        }
+
         if((*ECGdata)[i].first > ui->ECGwave->xAxis->range().upper){
             ui->ECGwave->xAxis->setRange(ui->ECGwave->xAxis->range().lower + 10,ui->ECGwave->xAxis->range().upper + 10);
+
         }
+
         ui->ECGwave->graph(0)->addData(ECGdata->at(i).first,ECGdata->at(i).second);
         ui->ECGwave->replot();
 
@@ -340,6 +387,7 @@ void MainWindow::handleIndicator(int indicator){
 }
 
 void MainWindow::handleVisualandVoice(QString str){
+    ui->AudioBox->setText(str);
     ui->visualPrompt->setText(str);
 }
 

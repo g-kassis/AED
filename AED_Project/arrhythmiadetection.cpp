@@ -80,3 +80,12 @@ QVector<QPair<double, double>>* arrhythmiadetection::nonShockable() {
 
     return data;
 }
+
+
+//detects flatline (no rhythm/ECG)
+QVector<QPair<double, double>>* arrhythmiadetection::flatline() {
+    QVector<QPair<double, double>>* data = new QVector<QPair<double, double>>();
+    data->append(qMakePair(0,0));
+
+    return data;
+}
