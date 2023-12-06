@@ -331,7 +331,7 @@ void MainWindow::handleECG(QVector<QPair<double,double>> ECGdata){
 //resets graph for new ECG Rhythm
 void MainWindow::handleResetECG(){
 
-    ui->ECGwave->graph(0)->data().reset();
+    ui->ECGwave->graph(0)->data().data()->clear();
     ui->ECGwave->replot();
 }
 
@@ -368,12 +368,14 @@ void MainWindow::handleContinueRhythm(QVector<QPair<double,double>> *ECGdata, QS
 
         ui->ECGwave->replot();
 
+        //changing data
         if(rhythm == "flatline"){
             (*ECGdata)[i] = qMakePair(lastPlottedX + delta, (*ECGdata)[i].second);
         }else{
             (*ECGdata)[i] = qMakePair((*ECGdata)[i].first + delta, (*ECGdata)[i].second);
         }
 
+        //graphing
         if((*ECGdata)[i].first > ui->ECGwave->xAxis->range().upper){
             ui->ECGwave->xAxis->setRange(ui->ECGwave->xAxis->range().lower + 10,ui->ECGwave->xAxis->range().upper + 10);
 
