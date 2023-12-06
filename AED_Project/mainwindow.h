@@ -54,6 +54,7 @@ public slots:
     void handleECG(QVector<QPair<double,double>>);
     void handleResetECG();
     void handleUpdateDepth(double);
+    void handleUserInteraction(int, int);
     void handleContinueRhythm(QVector<QPair<double, double>>*, QString);
 
     //Extras

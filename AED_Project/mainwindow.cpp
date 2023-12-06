@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&Scenarios, SIGNAL(delay(int)), this, SLOT(delay(int)));
     connect(&Scenarios, SIGNAL(updateECG(QVector<QPair<double,double>>)), this, SLOT(handleECG(QVector<QPair<double,double>>)));
     connect(&Scenarios, SIGNAL(clearECG()), this, SLOT(handleResetECG()));
+    connect(&Scenarios, SIGNAL(updateUserInteraction(int, int)), this, SLOT(handleUserInteraction(int, int)));
     connect(&Scenarios, SIGNAL(continueRhythm(QVector<QPair<double,double>>*, QString)), this, SLOT(handleContinueRhythm(QVector<QPair<double,double>>*, QString)));
     connect(&Scenarios, SIGNAL(updateIndicator(int)), this, SLOT(handleIndicator(int)));
 
@@ -110,8 +111,10 @@ void MainWindow::onPowerButtonClicked(){
     if(Scenarios.getBatterySensor() == false){
         handleIndicator(1);
         while(!Scenarios.getElectrodeSensor()){
+            handleUserInteraction(1,1);
             delay(1);
             Scenarios.startProcedure();
+            handleUserInteraction(1,0);
         }
 
         //checks if schockable or non-shockable rhythm
@@ -161,6 +164,7 @@ void MainWindow::handleNumShocks(int n){
 void MainWindow::onPlaceElectrode(){
     qInfo("electrode placed");
     Scenarios.setElectrodeSensor(true);
+    handleUserInteraction(1,0);
 
 
 }
@@ -180,6 +184,9 @@ void MainWindow::onBatteryReset(){
     ui->mainInterface->setPixmap(QPixmap(":/Images/3004project.jpg"));
     ui->lcd->show();
     ui->statusIndicator->show();
+    handleUserInteraction(4,0);
+    onPowerButtonClicked();
+
 
 
 }
@@ -389,6 +396,37 @@ void MainWindow::handleIndicator(int indicator){
 void MainWindow::handleVisualandVoice(QString str){
     ui->AudioBox->setText(str);
     ui->visualPrompt->setText(str);
+}
+
+void MainWindow::handleUserInteraction(int safety, int status){
+
+    if(safety == 1 && status == 1){  //place electrode
+        ui->electrodeButton->setStyleSheet("background-color: blue;");
+
+    }else if(safety == 2 && status == 1){ //start cpr
+        ui->cprButton->setStyleSheet("background-color: blue;");
+
+    }else if(safety == 3 && status == 1){ //stop cpr
+        ui->stopCPRbutton->setStyleSheet("background-color: blue;");
+
+    }else if(safety == 4 && status == 1){ //battery reset
+        ui->batteryResetButton->setStyleSheet("background-color: blue;");
+
+    }else{
+        if(safety == 1 && status == 0){  //place electrode
+            ui->electrodeButton->setStyleSheet("background-color: white;");
+
+        }else if(safety == 2 && status == 0){ //start cpr
+            ui->cprButton->setStyleSheet("background-color: white;");
+
+        }else if(safety == 3 && status == 0){ //stop cpr
+            ui->stopCPRbutton->setStyleSheet("background-color: white;");
+
+        }else if(safety == 4 && status == 0){ //battery reset
+            ui->batteryResetButton->setStyleSheet("background-color: white;");
+        }
+    }
+
 }
 
 void MainWindow::timeElapsed(){

@@ -52,6 +52,7 @@ signals:
     void updateNumShocks(int);
     void updateECG(QVector<QPair<double,double>>);
     void continueRhythm(QVector<QPair<double,double>>*, QString);
+    void updateUserInteraction(int, int);
     void delay(int);
 
 public slots:
