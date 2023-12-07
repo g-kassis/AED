@@ -478,7 +478,7 @@ border-radius: 5px;
       <x>680</x>
       <y>360</y>
       <width>141</width>
-      <height>271</height>
+      <height>241</height>
      </rect>
     </property>
     <property name="title">
@@ -514,7 +514,7 @@ border-radius: 5px;
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>240</y>
+       <y>160</y>
        <width>121</width>
        <height>25</height>
       </rect>
@@ -536,20 +536,7 @@ border-radius: 5px;
       <string>Stop CPR</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="cprButton_3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>160</y>
-       <width>121</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Check Electrode</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="responsivenessButton">
+    <widget class="QPushButton" name="powerOffButton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -559,7 +546,7 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>Responsiveness</string>
+      <string>Power Off</string>
      </property>
     </widget>
    </widget>

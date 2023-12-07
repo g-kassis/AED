@@ -125,9 +125,9 @@ void SimulatedScenarios::startAnalysis(int shock){    //shock decides shockable 
     }
 
     connect(ECGtimer, SIGNAL(timeout()), this, SLOT(newValues()));
-    ECGtimer->start(2000);
+    ECGtimer->start(5000);
 
-    delay(5); //analysis delay
+    delay(2); //analysis delay
 
     //shock advised or not advised depending on scenario selection
     if(shock == 1){
@@ -284,3 +284,24 @@ void SimulatedScenarios::newValues(){
     continueRhythm(ECGdata, ECGdataRhythm);
 }
 
+
+
+void SimulatedScenarios::turnOffAED(){
+    cprFb->setCPRstatus(false);
+    detection->setVfib(false);
+    detection->setVtach(false);
+
+    ECGtimer->stop();
+    clearECG();
+    //need to reset ecg data
+
+
+    numShocks = 0;
+    cprTime = 0;
+
+    adultPads = false;
+    pediatricPads = false;
+    lowBattery = false;
+    electrodeSensor = false;
+
+}

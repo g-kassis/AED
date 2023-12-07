@@ -22,10 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     //audio textbox
     ui->AudioBox->setDisabled(true); //user cant access (read-only)
+    ui->cprDepth->setDisabled(true); //uncontrolable by user
 
     //Buttons on AED
     connect(ui->powerButton, SIGNAL(clicked()), this, SLOT(onPowerButtonClicked()));
     connect(ui->shockButton, SIGNAL(clicked()), this, SLOT(onShockButtonClicked()));
+    connect(ui->powerOffButton, SIGNAL(clicked()), this, SLOT(onTurnOff()));
 
     //Simulated Scenarios RadioButtons & checkBoxes
     connect(ui->adultCheckBox, SIGNAL(clicked()), this, SLOT(onCheckBox()));
@@ -61,6 +63,7 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::onPowerButtonClicked(){
+
     qInfo("Power Button Clicked");
 
     //checks if a Simulated Scenario has been chosen
@@ -77,6 +80,7 @@ void MainWindow::onPowerButtonClicked(){
         qInfo("no simulated scenario selected");
         return;
     }
+    ui->powerButton->setDisabled(true); //disables power on
 
     min = 0;
 
@@ -143,6 +147,38 @@ void MainWindow::onPowerButtonHeld(){
     //self test
     Scenarios.selfTest();
 
+}
+
+void MainWindow::onTurnOff(){
+    timer->stop();
+    ui->visualPrompt->setText("PROMPT");
+    ui->elapsedTime->setText("00:00");
+    ui->numberOfShocks->setText("SHOCKS:");
+    ui->AudioBox->setText("AUDIO");
+    ui->statusIndicator->setPixmap(QPixmap());
+    min = 0;
+
+    //turn off all LEDs
+    ui->child_LED->hide();
+    ui->ok_LED->hide();
+    ui->ambulance_LED->hide();
+    ui->pads_LED->hide();
+    ui->clear_LED->hide();
+    ui->compressions_LED->hide();
+    ui->shock_LED->hide();
+
+    //reset graph
+    ui->ECGwave->graph(0)->data()->clear();
+    ui->ECGwave->xAxis->setRange(0,10);
+    ui->ECGwave->yAxis->setRange(-2.5,2.5);
+
+    Scenarios.turnOffAED();
+    ui->powerButton->setDisabled(false); //allows user to turn on device again
+    ui->adultCheckBox->setChecked(false);
+    ui->childCheckBox->setChecked(false);
+    ui->nonShockableScenario->setChecked(false);
+    ui->shockableScenario->setChecked(false);
+    ui->lowBatteryScenarioButton->setChecked(false);
 }
 
 void MainWindow::onShockButtonClicked(){
@@ -377,7 +413,13 @@ void MainWindow::handleContinueRhythm(QVector<QPair<double,double>> *ECGdata, QS
 
         //graphing
         if((*ECGdata)[i].first > ui->ECGwave->xAxis->range().upper){
+            //advances graph
             ui->ECGwave->xAxis->setRange(ui->ECGwave->xAxis->range().lower + 10,ui->ECGwave->xAxis->range().upper + 10);
+
+        }else if((*ECGdata)[i].first < ui->ECGwave->xAxis->range().lower){
+
+            //rewinds graph
+            ui->ECGwave->xAxis->setRange(ui->ECGwave->xAxis->range().lower - 10,ui->ECGwave->xAxis->range().upper - 10);
 
         }
 

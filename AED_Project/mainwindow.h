@@ -35,6 +35,7 @@ public slots:
     void onPowerButtonClicked();
     void onShockButtonClicked();
     void onPowerButtonHeld();
+    void onTurnOff();
 
     //simulated Scenario functions
     void onCheckBox();

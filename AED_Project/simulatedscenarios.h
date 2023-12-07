@@ -25,6 +25,7 @@ public:
     void startProcedure();
     void deliverShock();
     void CPRprocedure();
+    void turnOffAED();
     void stopCPR();
     void batteryTest();
     void selfTest();
