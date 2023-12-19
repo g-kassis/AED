@@ -1,7 +1,5 @@
 # AED Plus(Automated External Defibrillator Plus)
- COMP3004 Team Project using Qt for a AED UI 
 
-<h1>Project Overview</h1>
 In this project, the team is tasked with designing and developing a software
 simulation of the AED Plus (Automated External Defibrillator Plus) system, a life-saving medical
 device used to assist individuals in cardiac emergencies.
