@@ -1,11 +1,5 @@
 # AED Plus(Automated External Defibrillator Plus)
  COMP3004 Team Project using Qt for a AED UI 
- 
- Team Members:
- - Abdul Raheem
- - Giovanni Kassis
- - Aidan Mackenzie
- - Usman Iftikhar
 
 <h1>Project Overview</h1>
 In this project, the team is tasked with designing and developing a software
