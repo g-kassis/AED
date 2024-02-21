@@ -15,6 +15,12 @@ Administrator’s Guide
 
 <h1>Documentation</h1>
 
+[Use Cases](https://drive.google.com/file/d/111l6tQPBf_OGBjgX8xI8XCr86xruMZup/view?usp=sharing)
+<br>
+[UML](https://drive.google.com/file/d/1UZl5dT3QfhfPjtNrflnXjX0QUPPojFOh/view?usp=sharing)
+<br>
+[Sequence Diagrams](https://docs.google.com/document/d/1aCiCFvFuSwvvuwXzUbftRiC_2BmQa_X6OQOEXHIQucw/edit)
+  
 <h1>Technologies</h1>
 
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
